@@ -45,7 +45,7 @@ async def on_message(message):
     msg = message.content.split(' ')
 
     if message.content.startswith('$help'):
-        await bot.send_message(message.channel,'To make me roll dice for you simply type: \n `[#of dice]d[# Dice] [± Modifier] [Optional Message here]` \n `1d20 +8 Performance Check` \n To have me decide something for your lazy self: \n `$decide This or That or This thing or That guy over there` using `or` to separate the choices')
+        await bot.send_message(message.channel,'To make me roll dice for you simply type: \n `[#of dice]d[# Dice] [± Modifier] [Optional Message here]` \n `1d20 +8 Performance Check` \n To have me decide something for your lazy self: \n `$decide This or That or This thing or That guy over there` using `or` to separate the choices \n\n My source code: https://github.com/RowenStipe/Discord-D20Bot')
     
     if message.content.startswith('$decide'):
         
