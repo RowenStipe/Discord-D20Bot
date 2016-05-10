@@ -14,8 +14,6 @@ This bot requires that you have a proper Discord bot account through https://dis
 
 `pip3 install python-Levenshtein`
 
-`pip3 install fuzzywuzzy`
-
 `pip3 install git+https://github.com/Rapptz/discord.py@async`
  
 Now you're almost ready, before running the bot script you will need to modify the [`token`](https://github.com/RowenStipe/Discord-D20Bot/blob/master/diceroll.py#L28) value to match the your bot account token
