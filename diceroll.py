@@ -42,7 +42,7 @@ async def on_message(message):
 
     # $help command
     if message.content.startswith('$help'):
-        await bot.send_message(message.channel,'To make me roll dice for you simply type:\n`$r [#of dice MAX:255]d[# Dice MAX:10000] [± Modifier] [Optional Message here]`\nor\n`1d20 +8 Performance Check`\n\nTo have me decide something for your lazy self:\n`$decide This or That or This thing or That guy over there` using `or` to separate the choices\n\nMy source code: `https://github.com/RowenStipe/Discord-D20Bot`')
+        await bot.send_message(message.channel,'To make me roll dice for you simply type:\n`$r [#of dice MAX:255]d[# Dice MAX:10000] [± Modifier] [Optional Message here]`\nor\n`1d20 +8 Performance Check`\n\nTo have me decide something for your lazy self:\n`$decide This or That or This thing or That guy over there` using `or` to separate the choices\n`$8ball Question here` to have me shake the magic 8-ball\n\nMy source code: `https://github.com/RowenStipe/Discord-D20Bot`')
     
     # Make a decision
     if message.content.startswith('$decide'):
@@ -52,6 +52,15 @@ async def on_message(message):
         decision = rng.strip() # Profit!(Decide something)
         
         await bot.send_message(message.channel, '{0.author.mention} out of the choices between: *{1}* \n The decision is: *{2}*'.format(message, decide_str, decision))
+
+	# The magic 8ball
+	if message.content.startswith('$8ball'):
+		8ball = ['It is certain.','It is decidedly so.','Without a doubt.','Yes, definitely.','You may rely on it.','As I see it, yes.','Most likely.', 'Outlook good.', 'Yes.','Signs point to yes.','Reply hazy try again.','Ask later.','Better not tell you now.','Cannot predict now.','Concentrate and ask again.','Don\'t count on it.', 'My reply is; no.','My source code says: "No".','Outlook doesn\'t look good.','Very doubtful.', 'Fuck off.','42'] # 8Ball choices
+		rng = random.choice(8ball)
+		decision = rng.strip()
+		question = msg[1:] # The question
+
+		await bot.send_message(message.channel, '{0.author.mention} You asked: {1} \n I\'ve shaken the ball and it says: \n `{2}`'.format(message, question, decision))
 
     # Detect if 1d20 formula is given
 	if message.content.startswith('$r') or message.content.startswith('$roll'):
