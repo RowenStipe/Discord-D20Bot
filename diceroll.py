@@ -58,7 +58,7 @@ async def on_message(message):
         eightball = ["It is certain.", "It is decidedly so.", "Without a doubt.", "Yes, definitely.", "You may rely on it.", "As I see it? Yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Reply hazy try again.", "Ask later.", "Better not tell you now.", "Cannot predict now.","Concentrate and ask again.", "Do not count on it.", "My reply is~ no.", "My source code says-- No.", "Outlook does not look good.", "Very doubtful.", "Fuck off.", "42"]
         rng = random.choice(eightball)
         decision = rng.strip()
-        question = msg[1:] # The question
+        question = ' '.join(msg[1:]) # The question
 
         await bot.send_message(message.channel, '{0.author.mention} You asked: {1} \n I\'ve shaken the ball and it says: \n `{2}`'.format(message, question, decision))
 
