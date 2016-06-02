@@ -42,7 +42,7 @@ async def on_message(message):
 
     # $help command
     if message.content.startswith('$help'):
-        await bot.send_message(message.channel,'To make me roll dice for you simply type:\n`$r [#of dice MAX:255]d[# Dice MAX:10000] [± Modifier] [Optional Message here]`\nor\n`1d20 +8 Performance Check`\n\nTo have me decide something for your lazy self:\n`$decide This or That or This thing or That guy over there` using `or` to separate the choices\n`$8ball Question here` to have me shake the magic 8-ball\n\nMy source code: `https://github.com/RowenStipe/Discord-D20Bot`')
+        await bot.send_message(message.channel,'To make me roll dice for you simply type:\n`$r [#of dice MAX:255]d[# Dice MAX:10000] [± Modifier] [Optional Message here]`\nor\n`1d20 +8 Performance Check`\n\nTo have me decide something for your lazy self:\n`$decide This or That or This thing or That guy over there` using `or` to separate the choices\n\n`$statgen` To roll 6 random stats.\n\n`$8ball Question here` to have me shake the magic 8-ball\n\n\nMy source code: `https://github.com/RowenStipe/Discord-D20Bot`')
     
     # Make a decision
     if message.content.startswith('$decide'):
@@ -61,6 +61,23 @@ async def on_message(message):
         question = ' '.join(msg[1:]) # The question
 
         await bot.send_message(message.channel, '{0.author.mention} You asked: {1} \n I\'ve shaken the ball and it says: \n `{2}`'.format(message, question, decision))
+
+    # Generate stats
+    if message.content.startswith('$statgen'):
+        stats = []
+        i = 0
+        while (i < 6):
+            ii = 0
+            gen = []
+            while (ii < 4):
+                rng = random.randint(1, 6)
+                gen.append(rng)
+                ii = ii +1
+            gen.remove(min(gen))
+            stats.append(sum(gen))
+            i = i + 1
+        
+        await bot.send_message(message.channel, '**{0.author.mention}** Your generated stats are: \n `{1}`'.format(message, stats))
 
     # Detect if 1d20 formula is given
     if message.content.startswith('$r') or message.content.startswith('$roll'):
