@@ -16,12 +16,14 @@
 """
 
 import discord
-from discord.ext import commands
 
 import random
+import dice
+import sys
 
 # Token to change for bot
-token = '1YOUR2BOT3TOKEN5HERE4'
+token = 'MTc5NjAzMTE4OTUzMDcwNTkz.CljHIA.aRqftCJ34eTj-ZPPVjWsjT5BV2s'
+owner = '124589729688584192'
 
 description = "A more advanced dice rolling bot."
 
@@ -37,8 +39,13 @@ async def on_ready():
     
 @bot.event
 async def on_message(message):
-    # Dectection for dice later on
+    # Detection for dice later on
     msg = message.content.split(' ')
+    print(msg)
+    if message.content.startswith('$shutoff') and message.author == owner
+        await bot.logout()
+        sys.exit('Shutting down now!')
+
 
     # $help command
     if message.content.startswith('$help'):
@@ -61,7 +68,6 @@ async def on_message(message):
         question = ' '.join(msg[1:]) # The question
 
         await bot.send_message(message.channel, '{0.author.mention} You asked: {1} \n I\'ve shaken the ball and it says: \n `{2}`'.format(message, question, decision))
-
     # Generate stats
     if message.content.startswith('$statgen'):
         stats = []
@@ -100,7 +106,7 @@ async def on_message(message):
             if rollt > 255:
                 await bot.send_message(message.channel, '**{0.author.mention}** You want to roll too many dice!'.format(message))
                 valueerror = 'Too many Dice'
-                raise ValueError('Too mand dice')
+                raise ValueError('Too many dice')
             if maxn > 10000:
                 await bot.send_message(message.channel, '**{0.author.mention}** I don\'t have that high of dice to roll!'.format(message))
                 valueerror = 'Too high of dice'
@@ -123,5 +129,7 @@ async def on_message(message):
                 pass
         finally:
             pass
-            
-bot.run(token)
+try:
+    bot.run(token)
+except:
+    bot.logout()
