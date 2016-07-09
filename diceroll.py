@@ -19,6 +19,8 @@ import discord
 from discord.ext import commands
 
 import random
+import dice.roll as roll
+import sys
 
 # Token to change for bot
 token = '1YOUR2BOT3TOKEN5HERE4'
@@ -37,12 +39,12 @@ async def on_ready():
     
 @bot.event
 async def on_message(message):
-    # Dectection for dice later on
+    # For Dice later on
     msg = message.content.split(' ')
 
     # $help command
     if message.content.startswith('$help'):
-        await bot.send_message(message.channel,'To make me roll dice for you simply type:\n`$r [#of dice MAX:255]d[# Dice MAX:10000] [± Modifier] [Optional Message here]`\nor\n`1d20 +8 Performance Check`\n\nTo have me decide something for your lazy self:\n`$decide This or That or This thing or That guy over there` using `or` to separate the choices\n\n`$statgen` To roll 6 random stats.\n\n`$8ball Question here` to have me shake the magic 8-ball\n\n\nMy source code: `https://github.com/RowenStipe/Discord-D20Bot`')
+        await bot.send_message(message.channel,'To make me roll dice for you simply type:\n`$r [#of dice MAX:255]d[# Dice MAX:10000] [± Modifier] [Optional Message here]`\nor\n`1d20 +8 Performance Check`\nAdd a `!` to the end of your dice fore exploding dice. e.g. `3d8!`\n\nTo have me decide something for your lazy self:\n`$decide This or That or This thing or That guy over there` using `or` to separate the choices\n\n`$statgen` To roll 6 random stats.\n\n`$8ball Question here` to have me shake the magic 8-ball\n\n\nMy source code: `https://github.com/RowenStipe/Discord-D20Bot`')
     
     # Make a decision
     if message.content.startswith('$decide'):
@@ -53,7 +55,7 @@ async def on_message(message):
         
         await bot.send_message(message.channel, '{0.author.mention} out of the choices between: *{1}* \n The decision is: *{2}*'.format(message, decide_str, decision))
 
-	# The magic 8ball
+    # The magic 8ball
     if message.content.startswith('$8ball'):
         eightball = ["It is certain.", "It is decidedly so.", "Without a doubt.", "Yes, definitely.", "You may rely on it.", "As I see it? Yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Reply hazy try again.", "Ask later.", "Better not tell you now.", "Cannot predict now.","Concentrate and ask again.", "Do not count on it.", "My reply is~ no.", "My source code says-- No.", "Outlook does not look good.", "Very doubtful.", "Fuck off.", "42"]
         rng = random.choice(eightball)
@@ -79,49 +81,15 @@ async def on_message(message):
         
         await bot.send_message(message.channel, '**{0.author.mention}** Your generated stats are: \n `{1}`'.format(message, stats))
 
-    # Detect if 1d20 formula is given
-    if message.content.startswith('$r') or message.content.startswith('$roll'):
-        rollt = 0
-        maxn = 0
-        # Check if only dice is given to toss
-        if len(msg) < 3:
-            msg.insert(2, '0')
-            msg.insert(3, ' ')
-        # Check if missing optional message string
-        if len(msg) < 4:
-            msg.insert(3, ' ')
-        mod = msg[2].replace("+", "") # Remove '+' in: 1d20 +4 type strings (Returns 4)
-        psay = ' '.join(msg[3:]) # Compiles optional message, or what ever the cat hit afterwards
-        try:
-            rollt, maxn = map(int, msg[1].split('d')) # Decide what and how many times to roll
-        except ValueError:
-            pass    
-        try:
-            if rollt > 255:
-                await bot.send_message(message.channel, '**{0.author.mention}** You want to roll too many dice!'.format(message))
-                valueerror = 'Too many Dice'
-                raise ValueError('Too mand dice')
-            if maxn > 10000:
-                await bot.send_message(message.channel, '**{0.author.mention}** I don\'t have that high of dice to roll!'.format(message))
-                valueerror = 'Too high of dice'
-                raise ValueError('To high of dice')
-        except ValueError:
-            print(valueerror)
-        else:
-            try:
-                i = 0
-                rolled = [] # List of rolls
-                while (i < rollt):
-                    rng = random.randint(1, maxn)
-                    rolled.append(rng)
-                    i = i + 1
-                total = sum(rolled) + int(mod) # Decide the total ammout rolled
-            
-                sayr = '**{0.author.mention} Rolled**_(d{1})_ **:** `{2}` + {3} _{4}_ \nTotal: `{5}`'.format(message, maxn, rolled, mod, psay, total) #  Markdown formatted string to say
-                await bot.send_message(message.channel, sayr)
-            except ValueError:
-                pass
-        finally:
-            pass
-            
+    #Dev Command
+    if message.content.startswith('$test'):
+        del msg[0] #remove command
+        sdm = roll.sortmsg(msg)
+        # await bot.send_message(message.channel, 'Sorted roll is:\n```Dice to roll: \n {0.d2r} \n Modifiers: \n{0.mod} \n Player Message \n {0.pmsg}```'.format(sdm))
+        rolledd = roll.dice(sdm.d2r)
+        totalcalc = roll.calc(rolledd.rn, sdm.mod)
+        rolled_lst = rolledd.rd
+        rolled_str = ' \n '.join(map(str, rolled_lst))
+        await bot.send_message(message.channel, '{3.author.mention} I rolled the dice for you:\n ```py\nRolled Dice:\n {0}\nMods applied:\n {1.mod}\n\nCalculated Total [ {2.ct} ]```\n{1.pmsg}'.format(rolled_str, sdm, totalcalc, message))
+
 bot.run(token)
