@@ -82,7 +82,7 @@ async def on_message(message):
         await bot.send_message(message.channel, '**{0.author.mention}** Your generated stats are: \n `{1}`'.format(message, stats))
 
     #Dev Command
-    if message.content.startswith('$test'):
+    if message.content.startswith('$r') or message.content.startswith('$roll'):
         del msg[0] #remove command
         sdm = roll.sortmsg(msg)
         # await bot.send_message(message.channel, 'Sorted roll is:\n```Dice to roll: \n {0.d2r} \n Modifiers: \n{0.mod} \n Player Message \n {0.pmsg}```'.format(sdm))
