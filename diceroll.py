@@ -23,7 +23,7 @@ import dice.roll as roll
 import sys
 
 # Token to change for bot
-token = 'MTc5NjAzMTE4OTUzMDcwNTkz.CmHVjQ.kH8_8SvsM1f6oN4PlIpBWUWN9dc'
+token = '1YOUR2BOT3TOKEN5HERE4'
 
 description = "A more advanced dice rolling bot."
 
