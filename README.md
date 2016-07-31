@@ -20,4 +20,8 @@ Now you're almost ready, before running the bot script you will need to modify t
 
 Your bot is now ready to start using discord.
 
-To get your bot onto different servers you'll need proper server permissions, and the `Client ID` on your bot's application page then go to `https://discordapp.com/oauth2/authorize?&client_id={Your bot's Client ID here}&scope=bot` to direct it to servers. This URL can be shared to bring your bot to other servers, if you don't want to run a bot of your own you can invite my D20Bot (if I'm right) with https://discordapp.com/oauth2/authorize?&client_id=169068074010542080&scope=bot but I don't guarantee him to be online all the time.
+To get your bot onto different servers you'll need proper server permissions, and the `Client ID` on your bot's application page then go to `https://discordapp.com/oauth2/authorize?&client_id={Your bot's Client ID here}&scope=bot` to direct it to servers. This URL can be shared to bring your bot to other servers.
+
+If you don't want to run a bot of your own you can invite my D20Bot with https://discordapp.com/oauth2/authorize?&client_id=169068074010542080&scope=bot
+
+I can usually be found here on Discord: [Charisma Bonus](https://discord.gg/AChmBdp)
